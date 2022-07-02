@@ -7,15 +7,18 @@ function App() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    let ignore = false;
     async function fetchTodoList() {
       try {
         const reponse = await fetch('https://restapi.fr/api/todo');
         if (reponse.ok) {
           const todos = await reponse.json();
-          if (Array.isArray(todos)) {
-            setTodoList(todos);
-          } else {
-            setTodoList([todos]);
+          if (!ignore) {
+            if (Array.isArray(todos)) {
+              setTodoList(todos);
+            } else {
+              setTodoList([todos]);
+            }
           }
         } else {
           console.error('Oops, une erreur');
@@ -26,6 +29,9 @@ function App() {
       }
     }
     fetchTodoList();
+    return () => {
+      ignore = true;
+    };
   }, []);
 
   function addTodo(todo) {
