@@ -3,6 +3,7 @@ import TodoList from './components/TodoList';
 import AddTodo from './components/AddTodo';
 
 function App() {
+  console.log('rendu');
   const [todoList, setTodoList] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -25,7 +26,9 @@ function App() {
         }
       } catch (e) {
       } finally {
-        setLoading(false);
+        if (!ignore) {
+          setLoading(false);
+        }
       }
     }
     fetchTodoList();
